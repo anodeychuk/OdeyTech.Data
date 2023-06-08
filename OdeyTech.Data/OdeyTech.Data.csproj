@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <AssemblyTitle>OdeyTech.Data</AssemblyTitle>
+    <Company>Andrii Odeychuk</Company>
+    <Product>OdeyTech.Data</Product>
+    <Copyright>Copyright © $(Company) 2023.</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AssemblyVersion>0.0.114</AssemblyVersion>
+    <Authors>$(Company)</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Description>Allows you to create SQL queries based on specifying columns and their types, as well as tables to which they belong and selection criteria.</Description>
+    <RepositoryUrl>https://github.com/anodeychuk/OdeyTech.Data</RepositoryUrl>
+    <Version>$(AssemblyVersion)</Version>	
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\OdeyTech.SqlProvider\OdeyTech.SqlProvider\OdeyTech.SqlProvider.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+</Project>

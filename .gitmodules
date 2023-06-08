@@ -1,0 +1,3 @@
+[submodule "OdeyTech.CommonConfigurations"]
+	path = OdeyTech.CommonConfigurations
+	url = https://github.com/anodeychuk/OdeyTech.CommonConfigurations.git
