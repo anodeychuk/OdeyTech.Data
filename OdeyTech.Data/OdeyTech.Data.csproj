@@ -7,9 +7,9 @@
     <Product>OdeyTech.Data</Product>
     <Copyright>Copyright © $(Company) 2023.</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <AssemblyVersion>0.0.115</AssemblyVersion>
+    <AssemblyVersion>0.0.116</AssemblyVersion>
     <Authors>$(Company)</Authors>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Library for managing, loading, and manipulating data models. It provides a range of interfaces, abstract classes, and data providers that can be easily integrated into your project to handle a variety of data operations, including batch operations and dependent model handling.</Description>
     <RepositoryUrl>https://github.com/anodeychuk/OdeyTech.Data</RepositoryUrl>
     <Version>$(AssemblyVersion)</Version>
