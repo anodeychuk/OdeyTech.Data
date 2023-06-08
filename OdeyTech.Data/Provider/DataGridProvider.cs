@@ -17,6 +17,10 @@ using OdeyTech.ProductivityKit.Enum;
 
 namespace OdeyTech.Data.Provider
 {
+    /// <summary>
+    /// Base class for a data grid provider of type <typeparamref name="T"/>
+    /// </summary>
+    /// <typeparam name="T">The type of the data model.</typeparam>
     public abstract class DataGridProvider<T> : ObservableObject, IDisposable where T : IModel
     {
         private ButtonName buttonName;
@@ -24,32 +28,58 @@ namespace OdeyTech.Data.Provider
         private T editItem;
         private readonly IDataProvider<T> itemProvider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataGridProvider{T}"/> class.
+        /// </summary>
+        /// <param name="itemProvider">The item provider.</param>
         public DataGridProvider(IDataProvider<T> itemProvider)
         {
             this.itemProvider = itemProvider;
             this.itemProvider.LoadingChanged += ItemProvider_LoadingChanged;
         }
 
+        /// <summary>
+        /// Disposes the data grid provider.
+        /// </summary>
         public void Dispose() => this.itemProvider.LoadingChanged -= ItemProvider_LoadingChanged;
 
+        /// <summary>
+        /// Gets the collection of items.
+        /// </summary>
         public ObservableCollection<T> Items => this.itemProvider.Items;
 
+        /// <summary>
+        /// Gets or sets the item being edited.
+        /// </summary>
         public T EditItem
         {
             get => this.editItem;
             set => SetProperty(ref this.editItem, value, nameof(EditItem));
         }
 
+        /// <summary>
+        /// Gets a value indicating whether a new item can be created.
+        /// </summary>
         public bool CanNew => IsOperable && ButtonName != ButtonName.New;
 
+        /// <summary>
+        /// Gets a value indicating whether an item can be added.
+        /// </summary>
         public bool CanAdd => IsOperable && ButtonName == ButtonName.New;
 
+        /// <summary>
+        /// Gets a value indicating whether the selected item can be edited.
+        /// </summary>
         public bool CanEdit => IsOperable && ButtonName != ButtonName.New && SelectedItem != null;
 
+        /// <summary>
+        /// Gets a value indicating whether the selected item can be deleted.
+        /// </summary>
         public bool CanDelete => IsOperable && ButtonName != ButtonName.New && SelectedItem != null;
 
-        private bool IsOperable => !this.itemProvider.IsLoading;
-
+        /// <summary>
+        /// Gets or sets the selected item.
+        /// </summary>
         public T SelectedItem
         {
             get => this.selectedItem;
@@ -64,6 +94,8 @@ namespace OdeyTech.Data.Provider
             }
         }
 
+        private bool IsOperable => !this.itemProvider.IsLoading;
+
         private ButtonName ButtonName
         {
             get => this.buttonName;
@@ -74,8 +106,15 @@ namespace OdeyTech.Data.Provider
             }
         }
 
+        /// <summary>
+        /// Event that is raised when the loading state has changed.
+        /// </summary>
         public event PropertyChangedEventHandler LoadingChanged;
 
+        /// <summary>
+        /// Performs the button click action.
+        /// </summary>
+        /// <param name="buttonName">The name of the button clicked.</param>
         public virtual void ClickButton(ButtonName buttonName)
         {
             switch (buttonName)
@@ -123,8 +162,16 @@ namespace OdeyTech.Data.Provider
             ButtonName = buttonName;
         }
 
+        /// <summary>
+        /// Displays a confirmation dialog for removing an item and returns the result.
+        /// </summary>
+        /// <returns>The <see cref="ButtonName"/> representing the user's response.</returns>
         public abstract ButtonName ShowRemoveAsk();
 
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="args">The event arguments.</param>
         protected void RaisePropertyChanged(PropertyChangedEventArgs args) => LoadingChanged?.Invoke(this, args);
 
         private void RefreshButton()
