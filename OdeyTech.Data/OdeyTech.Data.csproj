@@ -7,12 +7,16 @@
     <Product>OdeyTech.Data</Product>
     <Copyright>Copyright © $(Company) 2023.</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <AssemblyVersion>0.0.114</AssemblyVersion>
+    <AssemblyVersion>0.0.115</AssemblyVersion>
     <Authors>$(Company)</Authors>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Description>Allows you to create SQL queries based on specifying columns and their types, as well as tables to which they belong and selection criteria.</Description>
+    <Description>Library for managing, loading, and manipulating data models. It provides a range of interfaces, abstract classes, and data providers that can be easily integrated into your project to handle a variety of data operations, including batch operations and dependent model handling.</Description>
     <RepositoryUrl>https://github.com/anodeychuk/OdeyTech.Data</RepositoryUrl>
-    <Version>$(AssemblyVersion)</Version>	
+    <Version>$(AssemblyVersion)</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/anodeychuk/OdeyTech.Data.git</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>Data Management, Data Manipulation, Repository Pattern, Data Access, Batch Operations</PackageTags>	
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -20,6 +24,16 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\OdeyTech.CommonConfigurations\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
   </ItemGroup>
