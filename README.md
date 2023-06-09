@@ -46,14 +46,16 @@ You can also utilize `IReadableRepository<T`>, `IRepository<T>`, `ReadableReposi
 
 Finally, if your repositories work with SQL databases, you can inherit from the `SqlRepository` abstract class to take advantage of its features and functionalities.
 
+**Note:** An example of how to use **OdeyTech.Data** can be found in the [OdeyTech.WPF.Example.Hospital repository][Example].
+
 ## Getting Started
-To start using OdeyTech.Data, install it as a NuGet package in your C# project.
+To start using **OdeyTech.Data**, install it as a NuGet package in your C# project.
 
 ## Contributing
-We welcome contributions to `OdeyTech.Data`! Feel free to submit pull requests or raise issues to help us improve the library.
+We welcome contributions to **OdeyTech.Data**! Feel free to submit pull requests or raise issues to help us improve the library.
 
 ## License
-`OdeyTech.Data` is released under the [Non-Commercial License][LICENSE]. See the LICENSE file for more information.
+**OdeyTech.Data** is released under the [Non-Commercial License][LICENSE]. See the LICENSE file for more information.
 
 ## Stay in Touch
 For more information, updates, and future releases, follow me on [LinkedIn][LIn] I'd be happy to connect and discuss any questions or ideas you might have.
@@ -61,3 +63,4 @@ For more information, updates, and future releases, follow me on [LinkedIn][LIn]
 [//]: #
    [LIn]: <https://www.linkedin.com/in/anodeychuk/>
    [LICENSE]: <https://github.com/anodeychuk/OdeyTech.Data/blob/main/LICENSE>
+   [Example]: <https://github.com/anodeychuk/OdeyTech.WPF.Example.Hospital>
