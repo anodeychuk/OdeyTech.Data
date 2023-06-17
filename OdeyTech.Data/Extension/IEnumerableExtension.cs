@@ -14,6 +14,12 @@ namespace OdeyTech.Data.Extension
 {
     public static class IEnumerableExtension
     {
+        /// <summary>
+        /// Clones the elements of the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the collection.</typeparam>
+        /// <param name="collection">The collection to clone.</param>
+        /// <returns>A new collection with cloned elements.</returns>
         public static IEnumerable<T> Clone<T>(this IEnumerable<T> collection) where T : IModel
         {
             var newCollection = new HashSet<T>();
