@@ -13,6 +13,8 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using OdeyTech.Data.Extension;
 using OdeyTech.Data.Model.Interface;
+using OdeyTech.Data.Provider.Interface;
+using OdeyTech.Data.Repository.Interface;
 using OdeyTech.ProductivityKit.Enum;
 
 namespace OdeyTech.Data.Provider
@@ -34,7 +36,7 @@ namespace OdeyTech.Data.Provider
         /// <param name="itemProvider">The item provider.</param>
         public DataGridProvider(IDataProvider<T> itemProvider)
         {
-            this.itemProvider = itemProvider;
+            this.itemProvider = itemProvider ?? throw new ArgumentNullException(nameof(itemProvider));
             this.itemProvider.LoadingChanged += ItemProvider_LoadingChanged;
         }
 
@@ -146,14 +148,14 @@ namespace OdeyTech.Data.Provider
                     this.itemProvider.Remove(EditItem);
                     OnPropertyChanged(nameof(Items));
                     T nearItem = Items.Count > 0 ? Items.Neighbor(EditItem.Identifier) : default;
-                    if (nearItem != null)
-                    {
-                        SelectedItem = nearItem;
-                    }
-                    else
+                    if (nearItem is null)
                     {
                         EditItem = this.itemProvider.NewItem();
                         buttonName = ButtonName.New;
+                    }
+                    else
+                    {
+                        SelectedItem = nearItem;
                     }
 
                     break;

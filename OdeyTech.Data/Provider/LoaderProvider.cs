@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using OdeyTech.Data.Model.Interface;
+using OdeyTech.Data.Provider.Interface;
 using OdeyTech.ProductivityKit;
 
 namespace OdeyTech.Data.Provider
@@ -130,7 +131,7 @@ namespace OdeyTech.Data.Provider
         protected virtual IList<T> LoadInternal()
         {
             List<T> preparedData = new();
-            if (RawData == null)
+            if (RawData is null)
             {
                 return preparedData;
             }

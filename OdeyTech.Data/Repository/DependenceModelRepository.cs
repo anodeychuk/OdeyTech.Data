@@ -50,7 +50,7 @@ namespace OdeyTech.Data.Repository
         /// <param name="parent">The parent item.</param>
         public virtual void DeleteByParent(IModel parent)
         {
-            if (parent == null)
+            if (parent is null)
             {
                 return;
             }

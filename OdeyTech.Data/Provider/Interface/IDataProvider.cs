@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using OdeyTech.Data.Model.Interface;
 
-namespace OdeyTech.Data.Provider
+namespace OdeyTech.Data.Provider.Interface
 {
     /// <summary>
     /// Data provider that can provide and manipulate a collection of data items of type <typeparamref name="T"/>.

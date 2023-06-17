@@ -26,18 +26,6 @@ namespace OdeyTech.Data.Repository
         private bool isDisposed;
 
         /// <summary>
-        /// Gets the SQL executor for this repository.
-        /// </summary>
-        protected SqlExecutor SqlExecutor
-        {
-            get
-            {
-                this.sqlExecutor ??= new SqlExecutor(this.dbConnection);
-                return this.sqlExecutor;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SqlRepository"/> class with the specified database connection and checker.
         /// </summary>
         /// <param name="dbConnection">The database connection.</param>
@@ -64,6 +52,18 @@ namespace OdeyTech.Data.Repository
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Gets the SQL executor for this repository.
+        /// </summary>
+        protected SqlExecutor SqlExecutor
+        {
+            get
+            {
+                this.sqlExecutor ??= new SqlExecutor(this.dbConnection);
+                return this.sqlExecutor;
+            }
         }
 
         /// <summary>

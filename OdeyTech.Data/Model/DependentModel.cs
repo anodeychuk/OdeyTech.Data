@@ -26,8 +26,7 @@ namespace OdeyTech.Data.Model
         /// </summary>
         /// <param name="identifier">The identifier of the model.</param>
         public DependentModel(ulong identifier) : base(identifier)
-        {
-        }
+        { }
 
         /// <inheritdoc/>
         public ulong ParentIdentifier { get; set; }

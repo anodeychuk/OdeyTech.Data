@@ -35,7 +35,7 @@ namespace OdeyTech.Data.Repository
         /// <inheritdoc/>
         public void Insert(T item)
         {
-            if (item == null)
+            if (item is null)
             {
                 return;
             }
@@ -48,7 +48,7 @@ namespace OdeyTech.Data.Repository
         /// <inheritdoc/>
         public void Update(T item)
         {
-            if (item == null)
+            if (item is null)
             {
                 return;
             }
@@ -61,7 +61,7 @@ namespace OdeyTech.Data.Repository
         /// <inheritdoc/>
         public void Delete(T item)
         {
-            if (item == null)
+            if (item is null)
             {
                 return;
             }

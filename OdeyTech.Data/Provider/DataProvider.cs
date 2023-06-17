@@ -28,7 +28,7 @@ namespace OdeyTech.Data.Provider
         /// <exception cref="InvalidOperationException">Thrown when there is an error checking the database or loading data.</exception>
         public DataProvider(IRepository<T> repository) : base()
         {
-            this.repository = repository;
+            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
             try
             {
                 this.repository.CheckDatabase();
