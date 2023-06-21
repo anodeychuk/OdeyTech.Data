@@ -14,7 +14,7 @@ using OdeyTech.Data.Repository.Interface;
 namespace OdeyTech.Data.Provider
 {
     /// <summary>
-    /// Data provider for managing data items of type <typeparamref name="T"/>.
+    /// Provides data management for data items of type <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">The type of the data items.</typeparam>
     public abstract class DataProvider<T> : LoaderProvider<T> where T : IModel
@@ -32,11 +32,10 @@ namespace OdeyTech.Data.Provider
             try
             {
                 this.repository.CheckDatabase();
-                Load();
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Error while checking the database or loading data.", ex);
+                throw new InvalidOperationException("Error while checking the database.", ex);
             }
         }
 

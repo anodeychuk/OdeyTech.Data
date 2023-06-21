@@ -12,7 +12,7 @@ using OdeyTech.Data.Model.Interface;
 namespace OdeyTech.Data.Model
 {
     /// <summary>
-    /// Model that depend on another model.
+    /// Represents a model that has a dependency on another model.
     /// </summary>
     public abstract class DependentModel : BasicModel, IDependentModel
     {
@@ -51,6 +51,15 @@ namespace OdeyTech.Data.Model
         /// Joins the specified model as a dependent of this model.
         /// </summary>
         /// <param name="obj">The model to join.</param>
-        protected void Join(IDependentModel obj) => obj.ParentIdentifier = Identifier;
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
+        protected void Join(IDependentModel obj)
+        {
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            obj.ParentIdentifier = Identifier;
+        }
     }
 }

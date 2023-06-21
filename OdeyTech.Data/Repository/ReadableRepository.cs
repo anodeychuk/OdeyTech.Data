@@ -13,25 +13,23 @@ using System.Linq;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
 using OdeyTech.ProductivityKit;
-using OdeyTech.SqlProvider.Entity.Database.Checker;
+using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Table;
-using OdeyTech.SqlProvider.Executor;
-using OdeyTech.SqlProvider.Query;
 
 namespace OdeyTech.Data.Repository
 {
     /// <summary>
-    /// Readable repository that stores objects of type T.
+    /// Provides functionality for reading data items of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T">The type of objects to store in the repository.</typeparam>
+    /// <typeparam name="T">The type of the data items.</typeparam>
     public abstract class ReadableRepository<T> : SqlRepository, IReadableRepository<T> where T : IModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadableRepository{T}"/> class with the specified database connection.
         /// </summary>
+        /// <param name="databaseType">The type of the database.</param>
         /// <param name="dbConnection">The database connection.</param>
-        /// <param name="dbChecker">The database checker to verify the existence of a database or a database item.</param>
-        public ReadableRepository(IDbConnection dbConnection, IDbChecker dbChecker) : base(dbConnection, dbChecker)
+        public ReadableRepository(DatabaseType databaseType, IDbConnection dbConnection) : base(databaseType, dbConnection)
         { }
 
         /// <inheritdoc/>
@@ -42,7 +40,7 @@ namespace OdeyTech.Data.Repository
         }
 
         /// <inheritdoc/>
-        public T SelectByIdentifier(ulong identifier) => SelectByCondition(SelectByIdCondition(identifier)).FirstOrDefault();
+        public T SelectByIdentifier(ulong identifier) => SelectByCondition(GetSelectIdCondition(identifier)).FirstOrDefault();
 
         /// <summary>
         /// Selects items by the specified conditions.
@@ -61,7 +59,7 @@ namespace OdeyTech.Data.Repository
         /// </summary>
         /// <param name="id">The identifier of the item.</param>
         /// <returns>An array containing the condition for selecting an item by its identifier.</returns>
-        protected virtual string[] SelectByIdCondition(ulong id) => new[] { $"{nameof(IModel.Identifier)} = {id}" };
+        protected virtual string[] GetSelectIdCondition(ulong id) => new[] { $"{nameof(IModel.Identifier)} = {id}" };
 
         /// <summary>
         /// Sets an extension for the select query.
@@ -88,7 +86,7 @@ namespace OdeyTech.Data.Repository
         /// <returns>A list of items that match the specified query source.</returns>
         private List<T> Select(SqlTable tableSource)
         {
-            DataTable data = SqlExecutor.Select(SqlQueryGenerator.Select(tableSource));
+            DataTable data = SqlExecutor.Select(GetSelectQuery(tableSource));
             var result = new List<T>();
             foreach (DataRow row in data.Rows)
             {
@@ -97,5 +95,7 @@ namespace OdeyTech.Data.Repository
 
             return result;
         }
+
+        private string GetSelectQuery(SqlTable tableSource) => SqlQueryGenerator.Select(tableSource);
     }
 }

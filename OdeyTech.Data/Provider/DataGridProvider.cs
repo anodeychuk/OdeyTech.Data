@@ -14,7 +14,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using OdeyTech.Data.Extension;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Provider.Interface;
-using OdeyTech.Data.Repository.Interface;
 using OdeyTech.ProductivityKit.Enum;
 
 namespace OdeyTech.Data.Provider

@@ -11,15 +11,14 @@ using System.Collections.Generic;
 using System.Data;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
-using OdeyTech.SqlProvider.Entity.Database.Checker;
+using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Table;
 using OdeyTech.SqlProvider.Entity.Table.Column;
-using OdeyTech.SqlProvider.Query;
 
 namespace OdeyTech.Data.Repository
 {
     /// <summary>
-    /// Abstract repository class for managing dependent data items of type <typeparamref name="T"/>.
+    /// Provides functionality for managing dependent data items of type <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">The type of the data items.</typeparam>
     public abstract class DependentModelRepository<T> : ModelRepository<T>, IDependentModelRepository<T>
@@ -28,9 +27,9 @@ namespace OdeyTech.Data.Repository
         /// <summary>
         /// Initializes a new instance of the <see cref="DependentModelRepository{T}"/> class.
         /// </summary>
+        /// <param name="databaseType">The type of the database.</param>
         /// <param name="dbConnection">The database connection.</param>
-        /// <param name="dbChecker">The database checker to verify the existence of a database or a database item.</param>
-        protected DependentModelRepository(IDbConnection dbConnection, IDbChecker dbChecker) : base(dbConnection, dbChecker)
+        protected DependentModelRepository(DatabaseType databaseType, IDbConnection dbConnection) : base(databaseType, dbConnection)
         { }
 
         /// <summary>
@@ -39,7 +38,11 @@ namespace OdeyTech.Data.Repository
         protected abstract string DependenceColumnName { get; }
 
         /// <inheritdoc/>
-        public IEnumerable<T> SelectByParent(IModel parent) => SelectByParent(parent.Identifier);
+        public IEnumerable<T> SelectByParent(IModel parent)
+        {
+            CheckNullParent(parent);
+            return SelectByParent(parent.Identifier);
+        }
 
         /// <inheritdoc/>
         public IEnumerable<T> SelectByParent(ulong parentId) => SelectByCondition($"{DependenceColumnName} = {parentId}");
@@ -50,14 +53,10 @@ namespace OdeyTech.Data.Repository
         /// <param name="parent">The parent item.</param>
         public virtual void DeleteByParent(IModel parent)
         {
-            if (parent is null)
-            {
-                return;
-            }
-
+            CheckNullParent(parent);
             SqlTable tableSource = GetTableTemplate();
             tableSource.AddConditions($"{DependenceColumnName} = {parent.Identifier}");
-            SqlExecutor.Query(SqlQueryGenerator.Delete(tableSource));
+            SqlExecutor.Query(GetDeleteQuery(tableSource));
         }
 
         /// <summary>
@@ -81,6 +80,16 @@ namespace OdeyTech.Data.Repository
             T obj = base.GetItem(row);
             obj.ParentIdentifier = (ulong)Convert.ToInt64(row[DependenceColumnName]);
             return obj;
+        }
+
+        private string GetDeleteQuery(SqlTable tableSource) => SqlQueryGenerator.Delete(tableSource);
+
+        private void CheckNullParent(IModel parent)
+        {
+            if (parent is null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
         }
     }
 }

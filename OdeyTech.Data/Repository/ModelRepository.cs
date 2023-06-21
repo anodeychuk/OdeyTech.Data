@@ -12,14 +12,13 @@ using System.Data;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
 using OdeyTech.ProductivityKit.Extension;
-using OdeyTech.SqlProvider.Entity.Database.Checker;
+using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Table;
-using OdeyTech.SqlProvider.Query;
 
 namespace OdeyTech.Data.Repository
 {
     /// <summary>
-    /// Repository with read, write, and batch operations for data items of type <typeparamref name="T"/>.
+    /// Provides functionality for managing data items of type <typeparamref name="T"/> with read, write, and batch operations.
     /// </summary>
     /// <typeparam name="T">The type of the data items.</typeparam>
     public abstract class ModelRepository<T> : ReadableRepository<T>, IBatchRepository<T>, IRepository<T> where T : IModel
@@ -27,9 +26,9 @@ namespace OdeyTech.Data.Repository
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelRepository{T}"/> class with the specified database connection.
         /// </summary>
+        /// <param name="databaseType">The type of the database.</param>
         /// <param name="dbConnection">The database connection.</param>
-        /// <param name="dbChecker">The database checker to verify the existence of a database or a database item.</param>
-        protected ModelRepository(IDbConnection dbConnection, IDbChecker dbChecker) : base(dbConnection, dbChecker)
+        protected ModelRepository(DatabaseType databaseType, IDbConnection dbConnection) : base(databaseType, dbConnection)
         { }
 
         /// <inheritdoc/>

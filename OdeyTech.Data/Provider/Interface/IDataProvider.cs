@@ -7,8 +7,8 @@
 // --------------------------------------------------------------------------
 
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using OdeyTech.Data.Model;
 using OdeyTech.Data.Model.Interface;
 
 namespace OdeyTech.Data.Provider.Interface
@@ -32,7 +32,7 @@ namespace OdeyTech.Data.Provider.Interface
         /// <summary>
         /// Data items provided by the provider.
         /// </summary>
-        ObservableCollection<T> Items { get; set; }
+        RangeObservableCollection<T> Items { get; }
 
         /// <summary>
         /// Creates a new instance of the data item.

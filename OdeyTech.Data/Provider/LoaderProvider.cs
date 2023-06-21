@@ -8,11 +8,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using OdeyTech.Data.Model;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Provider.Interface;
 using OdeyTech.ProductivityKit;
@@ -35,6 +35,7 @@ namespace OdeyTech.Data.Provider
         public LoaderProvider()
         {
             this.cancellationTokenSource = new CancellationTokenSource();
+            Items = new();
         }
 
         /// <inheritdoc/>
@@ -44,7 +45,7 @@ namespace OdeyTech.Data.Provider
         public bool IsLoading => this.loadingCounter > 0;
 
         /// <inheritdoc/>
-        public ObservableCollection<T> Items { get; set; }
+        public RangeObservableCollection<T> Items { get; private set; }
 
         /// <summary>
         /// Raw data to load from.
@@ -60,10 +61,21 @@ namespace OdeyTech.Data.Provider
         public virtual void Add(T toAdd) => Items.Add(toAdd);
 
         /// <inheritdoc/>
-        public virtual T BeginEdit(T toEdit) => (T)toEdit.Clone();
+        public virtual T BeginEdit(T toEdit)
+            => Items.Contains(toEdit)
+                ? (T)toEdit.Clone()
+                : throw new ArgumentException("Provider does not contain the item you want to edit.");
 
         /// <inheritdoc/>
-        public virtual void EndEdit(T toEdit) => Items.First(p => p.Identifier == toEdit.Identifier).CopyFrom(toEdit);
+        public virtual void EndEdit(T toEdit)
+        {
+            if (!Items.Any(x => x.Identifier == toEdit.Identifier))
+            {
+                throw new ArgumentException("Provider does not contain the item you want to edit.");
+            }
+
+            Items.First(p => p.Identifier == toEdit.Identifier).CopyFrom(toEdit);
+        }
 
         /// <inheritdoc/>
         public virtual T NewItem() => Accessor.CreateInstance<T>();
@@ -107,7 +119,7 @@ namespace OdeyTech.Data.Provider
             {
                 try
                 {
-                    Items = new(LoadInternal());
+                    Items.AddRange(LoadInternal());
                 }
                 catch (OperationCanceledException)
                 {
@@ -128,7 +140,7 @@ namespace OdeyTech.Data.Provider
         /// Loads the data from the raw data source and prepares it for use.
         /// </summary>
         /// <returns>The prepared data.</returns>
-        protected virtual IList<T> LoadInternal()
+        protected virtual IEnumerable<T> LoadInternal()
         {
             List<T> preparedData = new();
             if (RawData is null)
