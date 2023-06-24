@@ -13,7 +13,7 @@
     <Product>OdeyTech.Data.Test</Product>
     <Copyright>Copyright © $(Company) 2023.</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-	<AssemblyVersion>0.0.66</AssemblyVersion>
+	<AssemblyVersion>0.0.72</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+    <PackageReference Include="OdeyTech.SqlProvider" Version="0.0.123" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OdeyTech.Data\OdeyTech.Data.csproj" />

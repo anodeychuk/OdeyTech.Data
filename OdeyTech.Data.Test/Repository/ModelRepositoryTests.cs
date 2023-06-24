@@ -85,7 +85,7 @@ namespace OdeyTech.Data.Test.Repository
         private SqlTable GetSqlTable()
         {
             var table = new SqlTable();
-            table.Columns.AddColumn(nameof(TestModel.Identifier), new SQLiteDataType(SQLiteDataType.DataType.Integer));
+            table.Columns.Add(nameof(TestModel.Identifier), new SQLiteDataType(SQLiteDataType.DataType.Integer));
             return table;
         }
     }

@@ -77,7 +77,7 @@ namespace OdeyTech.Data.Repository
         /// <returns>A <see cref="ColumnValues"/> object containing the column values for the data item.</returns>
         protected virtual void SaveItem(SqlTable table, T item)
         {
-            if (table.Columns.GetColumn(nameof(IModel.Identifier)).IsExcluded)
+            if (table.Columns.Get(nameof(IModel.Identifier)).IsExcluded)
             {
                 return;
             }
@@ -152,7 +152,7 @@ namespace OdeyTech.Data.Repository
         private string GetUpdateQuery(T item)
         {
             SqlTable tableSource = GetTableTemplate();
-            tableSource.Columns.GetColumn(nameof(IModel.Identifier)).IsExcluded = true;
+            tableSource.Columns.Get(nameof(IModel.Identifier)).IsExcluded = true;
             SaveItem(tableSource, item);
             tableSource.AddConditions($"{nameof(IModel.Identifier)} = {item.Identifier}");
             return SqlQueryGenerator.Update(tableSource);
