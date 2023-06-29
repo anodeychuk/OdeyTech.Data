@@ -11,9 +11,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using OdeyTech.Data.Model.Interface;
+using OdeyTech.ProductivityKit;
 
 namespace OdeyTech.Data.Extension
 {
+    /// <summary>
+    /// Provides extension methods for working with ObservableCollection collections.
+    /// </summary>
     public static class ObservableCollectionExtension
     {
         /// <summary>
@@ -21,8 +25,10 @@ namespace OdeyTech.Data.Extension
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The collection to sort.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="collection"/> is null.</exception>
         public static void Sort<T>(this ObservableCollection<T> collection) where T : IComparable
         {
+            ThrowHelper.ThrowIfNull(collection, nameof(collection));
             var sorted = SortCollection(collection);
             RearrangeCollection(collection, sorted);
         }
@@ -33,8 +39,10 @@ namespace OdeyTech.Data.Extension
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The collection to copy.</param>
         /// <returns>A new collection with copied elements.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="collection"/> is null.</exception>
         public static ObservableCollection<T> Copy<T>(this ObservableCollection<T> collection) where T : IModel
         {
+            ThrowHelper.ThrowIfNull(collection, nameof(collection));
             ObservableCollection<T> newCollection = CreateNewCollection<T>();
             PopulateCollectionWithClones(collection, newCollection);
             return newCollection;
@@ -47,8 +55,11 @@ namespace OdeyTech.Data.Extension
         /// <param name="collection">The collection to search.</param>
         /// <param name="identifier">The identifier to compare with.</param>
         /// <returns>The element with the closest identifier, or the default value of T if the collection is empty.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="collection"/> is null.</exception>
         public static T Neighbor<T>(this ObservableCollection<T> collection, ulong identifier) where T : IModel
         {
+            ThrowHelper.ThrowIfNull(collection, nameof(collection));
+
             T value = default;
             var minDistance = ulong.MaxValue;
             foreach (T item in collection)

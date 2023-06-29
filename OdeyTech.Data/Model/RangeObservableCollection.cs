@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using OdeyTech.ProductivityKit;
+using OdeyTech.ProductivityKit.Extension;
 
 namespace OdeyTech.Data.Model
 {
@@ -37,22 +39,15 @@ namespace OdeyTech.Data.Model
         /// Adds a range of items to the collection.
         /// </summary>
         /// <param name="list">The items to add to the collection.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="list"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="list"/> is null.</exception>
         public void AddRange(IEnumerable<T> list)
         {
-            if (list is null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
+            ThrowHelper.ThrowIfNull(list, nameof(list));
 
             this.suppressNotification = true;
-
-            foreach (T item in list)
-            {
-                Add(item);
-            }
-
+            list.ForEach(item => Add(item));
             this.suppressNotification = false;
+
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }

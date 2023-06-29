@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
+using OdeyTech.ProductivityKit;
 
 namespace OdeyTech.Data.Provider
 {
@@ -25,10 +26,12 @@ namespace OdeyTech.Data.Provider
         /// Initializes a new instance of the <see cref="DataProvider{T}"/> class, checks the database and loads data.
         /// </summary>
         /// <param name="repository">The repository to be used for data management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="repository"/> is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown when there is an error checking the database or loading data.</exception>
         public DataProvider(IRepository<T> repository) : base()
         {
-            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            ThrowHelper.ThrowIfNull(repository, nameof(repository));
+            this.repository = repository;
             try
             {
                 this.repository.CheckDatabase();

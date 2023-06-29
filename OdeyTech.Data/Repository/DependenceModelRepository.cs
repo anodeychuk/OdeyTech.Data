@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
+using OdeyTech.ProductivityKit;
 using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Table;
 using OdeyTech.SqlProvider.Entity.Table.Column;
@@ -38,9 +39,10 @@ namespace OdeyTech.Data.Repository
         protected abstract string DependenceColumnName { get; }
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="parent"/> is null.</exception>
         public IEnumerable<T> SelectByParent(IModel parent)
         {
-            CheckNullParent(parent);
+            ThrowHelper.ThrowIfNull(parent, nameof(parent));
             return SelectByParent(parent.Identifier);
         }
 
@@ -51,9 +53,10 @@ namespace OdeyTech.Data.Repository
         /// Deletes all data items with the specified parent from the repository.
         /// </summary>
         /// <param name="parent">The parent item.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="parent"/> is null.</exception>
         public virtual void DeleteByParent(IModel parent)
         {
-            CheckNullParent(parent);
+            ThrowHelper.ThrowIfNull(parent, nameof(parent));
             SqlTable tableSource = GetTableTemplate();
             tableSource.AddConditions($"{DependenceColumnName} = {parent.Identifier}");
             SqlExecutor.Query(GetDeleteQuery(tableSource));
@@ -83,13 +86,5 @@ namespace OdeyTech.Data.Repository
         }
 
         private string GetDeleteQuery(SqlTable tableSource) => SqlQueryGenerator.Delete(tableSource);
-
-        private void CheckNullParent(IModel parent)
-        {
-            if (parent is null)
-            {
-                throw new ArgumentNullException(nameof(parent));
-            }
-        }
     }
 }

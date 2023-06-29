@@ -7,7 +7,7 @@
     <Product>OdeyTech.Data</Product>
     <Copyright>Copyright © $(Company) 2023.</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <AssemblyVersion>0.0.166</AssemblyVersion>
+    <AssemblyVersion>0.0.178</AssemblyVersion>
     <Authors>$(Company)</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Library for managing, loading, and manipulating data models. It provides a range of interfaces, abstract classes, and data providers that can be easily integrated into your project to handle a variety of data operations, including batch operations and dependent model handling.</Description>
@@ -36,7 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
-    <PackageReference Include="OdeyTech.SqlProvider" Version="0.0.123" />
+    <PackageReference Include="OdeyTech.ProductivityKit" Version="0.0.39" />
+    <PackageReference Include="OdeyTech.SqlProvider" Version="0.0.129" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
+using OdeyTech.ProductivityKit;
 using OdeyTech.ProductivityKit.Extension;
 using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Table;
@@ -32,12 +33,10 @@ namespace OdeyTech.Data.Repository
         { }
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="item"/> is null.</exception>
         public void Insert(T item)
         {
-            if (item is null)
-            {
-                return;
-            }
+            ThrowHelper.ThrowIfNull(item, nameof(item));
 
             PrepareInsert(item);
             SqlExecutor.Query(GetInsertQuery(item));
@@ -45,12 +44,10 @@ namespace OdeyTech.Data.Repository
         }
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="item"/> is null.</exception>
         public void Update(T item)
         {
-            if (item is null)
-            {
-                return;
-            }
+            ThrowHelper.ThrowIfNull(item, nameof(item));
 
             PrepareUpdate(item);
             SqlExecutor.Query(GetUpdateQuery(item));
@@ -58,12 +55,10 @@ namespace OdeyTech.Data.Repository
         }
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="item"/> is null.</exception>
         public void Delete(T item)
         {
-            if (item is null)
-            {
-                return;
-            }
+            ThrowHelper.ThrowIfNull(item, nameof(item));
 
             PrepareDelete(item);
             DeleteInternal(item);
@@ -71,10 +66,14 @@ namespace OdeyTech.Data.Repository
         }
 
         /// <summary>
-        /// Gets the column values for the specified data item.
+        /// Saves the specified item to the specified SQL table.
         /// </summary>
-        /// <param name="item">The data item.</param>
-        /// <returns>A <see cref="ColumnValues"/> object containing the column values for the data item.</returns>
+        /// <param name="table">The SQL table to save the item to.</param>
+        /// <param name="item">The item to be saved.</param>
+        /// <remarks>
+        /// This method sets the value of the "Identifier" column in the SQL table using the item's identifier.
+        /// If the "Identifier" column is excluded from the table, no action is performed.
+        /// </remarks>
         protected virtual void SaveItem(SqlTable table, T item)
         {
             if (table.Columns.Get(nameof(IModel.Identifier)).IsExcluded)

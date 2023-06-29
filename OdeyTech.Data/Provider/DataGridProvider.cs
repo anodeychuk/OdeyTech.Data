@@ -14,6 +14,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using OdeyTech.Data.Extension;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Provider.Interface;
+using OdeyTech.ProductivityKit;
 using OdeyTech.ProductivityKit.Enum;
 
 namespace OdeyTech.Data.Provider
@@ -33,9 +34,12 @@ namespace OdeyTech.Data.Provider
         /// Initializes a new instance of the <see cref="DataGridProvider{T}"/> class.
         /// </summary>
         /// <param name="itemProvider">The item provider.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="itemProvider"/> is null.</exception>
         public DataGridProvider(IDataProvider<T> itemProvider)
         {
-            this.itemProvider = itemProvider ?? throw new ArgumentNullException(nameof(itemProvider));
+            ThrowHelper.ThrowIfNull(itemProvider, nameof(itemProvider));
+
+            this.itemProvider = itemProvider;
             this.itemProvider.LoadingChanged += ItemProvider_LoadingChanged;
         }
 
@@ -55,7 +59,7 @@ namespace OdeyTech.Data.Provider
         public T EditItem
         {
             get => this.editItem;
-            set => SetProperty(ref this.editItem, value, nameof(EditItem));
+            set => SetProperty(ref this.editItem, value);
         }
 
         /// <summary>
@@ -86,7 +90,7 @@ namespace OdeyTech.Data.Provider
             get => this.selectedItem;
             set
             {
-                SetProperty(ref this.selectedItem, value, nameof(SelectedItem));
+                SetProperty(ref this.selectedItem, value);
                 ButtonName = ButtonName.None;
                 if (CanEdit)
                 {
@@ -102,7 +106,7 @@ namespace OdeyTech.Data.Provider
             get => this.buttonName;
             set
             {
-                SetProperty(ref this.buttonName, value, nameof(ButtonName));
+                SetProperty(ref this.buttonName, value);
                 RefreshButton();
             }
         }

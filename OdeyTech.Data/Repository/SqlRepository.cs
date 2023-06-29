@@ -8,6 +8,7 @@
 
 using System;
 using System.Data;
+using OdeyTech.ProductivityKit;
 using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Database.Checker;
 using OdeyTech.SqlProvider.Entity.Table;
@@ -29,15 +30,10 @@ namespace OdeyTech.Data.Repository
         /// </summary>
         /// <param name="databaseType">The type of the database.</param>
         /// <param name="dbConnection">The database connection.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="dbConnection"/> is null.
-        /// </exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="dbConnection"/> is null.</exception>
         public SqlRepository(DatabaseType databaseType, IDbConnection dbConnection)
         {
-            if (dbConnection is null)
-            {
-                throw new ArgumentNullException(nameof(dbConnection));
-            }
+            ThrowHelper.ThrowIfNull(dbConnection, nameof(dbConnection));
 
             this.dbConnection = dbConnection;
             TableTemplate = new SqlTable();

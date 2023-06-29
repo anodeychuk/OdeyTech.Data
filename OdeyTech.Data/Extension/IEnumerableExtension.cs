@@ -6,12 +6,18 @@
 // </copyright>
 // --------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using OdeyTech.Data.Model.Interface;
+using OdeyTech.ProductivityKit;
 using OdeyTech.ProductivityKit.Extension;
 
 namespace OdeyTech.Data.Extension
 {
+    /// <summary>
+    /// Provides extension methods for working with IEnumerable collections.
+    /// </summary>
     public static class IEnumerableExtension
     {
         /// <summary>
@@ -20,9 +26,11 @@ namespace OdeyTech.Data.Extension
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The collection to clone.</param>
         /// <returns>A new collection with cloned elements.</returns>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="collection"/> is null or empty.</exception>
         public static IEnumerable<T> Clone<T>(this IEnumerable<T> collection) where T : IModel
         {
-            var newCollection = new HashSet<T>();
+            ThrowHelper.ThrowIfNullOrEmpty(collection, nameof(collection));
+            var newCollection = new HashSet<T>(collection.Count());
             collection.ForEach(p => newCollection.Add((T)p.Clone()));
             return newCollection;
         }

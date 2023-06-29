@@ -13,6 +13,7 @@ using System.Linq;
 using OdeyTech.Data.Model.Interface;
 using OdeyTech.Data.Repository.Interface;
 using OdeyTech.ProductivityKit;
+using OdeyTech.ProductivityKit.Extension;
 using OdeyTech.SqlProvider.Entity.Database;
 using OdeyTech.SqlProvider.Entity.Table;
 
@@ -88,11 +89,7 @@ namespace OdeyTech.Data.Repository
         {
             DataTable data = SqlExecutor.Select(GetSelectQuery(tableSource));
             var result = new List<T>();
-            foreach (DataRow row in data.Rows)
-            {
-                result.Add(GetItem(row));
-            }
-
+            data.Rows.ForEach(row => result.Add(GetItem((DataRow)row)));
             return result;
         }
 

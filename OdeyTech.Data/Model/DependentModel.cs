@@ -8,6 +8,7 @@
 
 using System;
 using OdeyTech.Data.Model.Interface;
+using OdeyTech.ProductivityKit;
 
 namespace OdeyTech.Data.Model
 {
@@ -54,11 +55,7 @@ namespace OdeyTech.Data.Model
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
         protected void Join(IDependentModel obj)
         {
-            if (obj is null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
+            ThrowHelper.ThrowIfNull(obj, nameof(obj));
             obj.ParentIdentifier = Identifier;
         }
     }

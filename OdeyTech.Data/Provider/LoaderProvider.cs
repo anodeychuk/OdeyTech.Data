@@ -58,17 +58,27 @@ namespace OdeyTech.Data.Provider
         protected bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>
-        public virtual void Add(T toAdd) => Items.Add(toAdd);
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="toAdd"/> is null.</exception>
+        public virtual void Add(T toAdd)
+        {
+            ThrowHelper.ThrowIfNull(toAdd, nameof(toAdd));
+            Items.Add(toAdd);
+        }
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentException">Thrown when provider does not contain the item you want to edit.</exception>
         public virtual T BeginEdit(T toEdit)
             => Items.Contains(toEdit)
                 ? (T)toEdit.Clone()
                 : throw new ArgumentException("Provider does not contain the item you want to edit.");
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="toEdit"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when provider does not contain the item you want to edit.</exception>
         public virtual void EndEdit(T toEdit)
         {
+            ThrowHelper.ThrowIfNull(toEdit, nameof(toEdit));
+
             if (!Items.Any(x => x.Identifier == toEdit.Identifier))
             {
                 throw new ArgumentException("Provider does not contain the item you want to edit.");
@@ -81,7 +91,12 @@ namespace OdeyTech.Data.Provider
         public virtual T NewItem() => Accessor.CreateInstance<T>();
 
         /// <inheritdoc/>
-        public virtual void Remove(T toRemove) => Items.Remove(toRemove);
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="toRemove"/> is null.</exception>
+        public virtual void Remove(T toRemove)
+        {
+            ThrowHelper.ThrowIfNull(toRemove, nameof(toRemove));
+            Items.Remove(toRemove);
+        }
 
         /// <inheritdoc/>
         public void Dispose()
